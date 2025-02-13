@@ -17,7 +17,7 @@ class ProductController extends Controller
         ->get();
         return response([
             "message" => "product type list",
-            "data" => $data
+            "data" => $data,    
         ]);
     }
 
@@ -34,7 +34,7 @@ class ProductController extends Controller
             'stock' => 'required|numeric',
             'img_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
-        $imagename = time().'.'.$request->img_url->extention(); 
+        $imagename = time().'.'.$request->img_url->extension(); 
         $request->img_url->move(public_path('image'), $imagename); 
 
         Product::create([
@@ -43,7 +43,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            'img_url' => url('/images/'.$imagename), 
+            'img_url' => url('image/'.$imagename), 
             'img_name' =>$imagename
         ]);
 
@@ -102,8 +102,8 @@ class ProductController extends Controller
         $data->description = $request->description;
         $data->price = $request->price;
         $data->stock = $request->stock;
-        $data->img_url = $request->img_url;
-        $data->img_name = $request->$imagename;
+        $data->img_url = url('image/'. $imagename);
+        $data->img_name = $imagename;
         $data->save();
 
 
